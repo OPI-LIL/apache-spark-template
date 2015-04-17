@@ -9,11 +9,12 @@ lazy val commonSettings = Seq(
   organization := "com.opi.lil",
   version := "1.2",
   scalaVersion := "2.10.4",           // desired scala version
-  remote := "user@host",              // host and user name
+  remote := "user@1host",             // host and user name
   remoteFolder := "/home/spark/dev/", // dest directory of jar files
   defaultClass := "MainApp",
   deploy := deployImpl.value,
   submit := {
+    (TaskProvider.`deploy` in Compile).value   // depends on deploy task
     val args: Seq[String] = spaceDelimited("<arg>").parsed        
     val className = if (args==Nil) defaultClass.value else args.head
     val jar = new JarData(name.value, version.value, scalaVersion.value)              

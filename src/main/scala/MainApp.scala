@@ -13,7 +13,7 @@ object MainApp {
     val masterIP =  "0.0.0.0"  
     val masterPort = "7077"    
     val maxCores = "20"        
-    val executorMemory = "4G"
+    val executorMemory = "4G" 
     val driverMemory = "512m"
 
     val conf = new SparkConf()

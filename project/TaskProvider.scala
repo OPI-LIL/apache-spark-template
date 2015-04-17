@@ -16,7 +16,8 @@ object TaskProvider {
 	val defaultClass = settingKey[String]("Default class to be submitted to Apache Spark")
 
 	lazy val deployImpl: Initialize[Task[Unit]] =
-	  Def.task { 
+	  Def.task { 	    
+	  	(Keys.`package` in Compile).value 	// depends on package task
 	    val jar = new JarData(name.value, version.value, scalaVersion.value)          
 	    val remoteName = remote.value
 	    val dstFolder = remoteFolder.value
