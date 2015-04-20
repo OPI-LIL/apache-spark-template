@@ -1,31 +1,20 @@
-
-import sbt._
-import TaskProvider._
-import Def.Initialize
-import complete.DefaultParsers._
-
+scalaVersion := "2.10.4"
 
 lazy val commonSettings = Seq(
-  organization := "com.opi.lil",
-  version := "1.2",
-  scalaVersion := "2.10.4",           // desired scala version
-  remote := "user@1host",             // host and user name
-  remoteFolder := "/home/spark/dev/", // dest directory of jar files
-  defaultClass := "MainApp",
-  deploy := deployImpl.value,
-  submit := {
-    (TaskProvider.`deploy` in Compile).value   // depends on deploy task
-    val args: Seq[String] = spaceDelimited("<arg>").parsed        
-    val className = if (args==Nil) defaultClass.value else args.head
-    val jar = new JarData(name.value, version.value, scalaVersion.value)              
-    Process(s"cmd /C scripts\\run ${remote.value} ${remoteFolder.value} ${jar.fileName()} $className").!    
-  }
+  organization := "com.opi.lil",              // your organization name
+  version := "1.0",                           // your project version
+  scalaVersion := "2.10.4",                   // your scala version
+  user := "user",                             // your username on host
+  host := "0.0.0.0",                          // your host adress  
+  key := "PATH_TO_YOUR_PRIVATE_KEY",          // path to private key in OpenSSH format
+  destFolder := "/home/spark/dev/",           // dest directory of jar file
+  defaultClass := "MainApp"                   // class to be submitted to apache spark
 )
 
 lazy val root = (project in file(".")).
   settings(commonSettings: _*).
   settings(
-  	name := "spark-template",  
+    name := "spark-test",  
     libraryDependencies ++= Seq(
       "org.apache.spark"  % "spark-core_2.10"  % "1.2.0", 
       "org.apache.spark"  % "spark-mllib_2.10" % "1.2.0",
